@@ -1,0 +1,1176 @@
+/* ========================================================
+   공강요정 (GongGang Mate) - style.css
+   DESIGN-claude.md 스펙에 맞춘 Warm Editorial 디자인 시스템
+   ======================================================== */
+
+/* --- 1. DESIGN-claude.md 공식 디자인 토큰 (CSS Variables) --- */
+:root {
+  /* Brand & Primary Accent (Anthropic Warm Coral) */
+  --colors-primary: #cc785c;
+  --colors-primary-active: #a9583e;
+  --colors-primary-disabled: #e6dfd8;
+
+  /* Surfaces */
+  --colors-canvas: #faf9f5;             /* 기본 페이지 캔버스 (Tinted Cream) */
+  --colors-surface-soft: #f5f0e8;       /* 매우 부드러운 밴드 */
+  --colors-surface-card: #efe9de;       /* 크림 카드 배경 */
+  --colors-surface-cream-strong: #e8e0d2;
+  --colors-surface-dark: #181715;       /* 다크 프로덕트 서피스 / 터미널 */
+  --colors-surface-dark-elevated: #252320;
+  --colors-surface-dark-soft: #1f1e1b;
+
+  /* Borders & Hairlines */
+  --colors-hairline: #e6dfd8;          /* 1px border tone on cream */
+  --colors-hairline-soft: #ebe6df;
+
+  /* Text & Ink */
+  --colors-ink: #141413;                /* 헤드라인 및 주요 텍스트 */
+  --colors-body-strong: #252523;
+  --colors-body: #3d3d3a;               /* 기본 본문 텍스트 */
+  --colors-muted: #6c6a64;
+  --colors-muted-soft: #8e8b82;
+
+  /* Contrast Text */
+  --colors-on-primary: #ffffff;
+  --colors-on-dark: #faf9f5;
+  --colors-on-dark-soft: #a09d96;
+
+  /* Secondary Accents */
+  --colors-accent-teal: #5db8a6;
+  --colors-accent-amber: #e8a55a;
+  --colors-success: #5db872;
+  --colors-warning: #d4a017;
+  --colors-error: #c64545;
+
+  /* Header 특화 색상 (사용자 요청: 푸른 계열 배경색을 Claude 톤과 조화) */
+  --header-blue-bg: #151c28;           /* Claude 다크 서피스와 어우러지는 딥 인디고 네이비 */
+  --header-blue-border: #232d3f;
+
+  /* Typography Stacks */
+  --font-display: 'Cormorant Garamond', 'Tiempos Headline', Garamond, 'Times New Roman', serif;
+  --font-sans: 'Inter', 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* Border Radii */
+  --rounded-xs: 4px;
+  --rounded-sm: 6px;
+  --rounded-md: 8px;
+  --rounded-lg: 12px;
+  --rounded-xl: 16px;
+  --rounded-pill: 9999px;
+  --rounded-full: 9999px;
+
+  /* Spacing */
+  --spacing-section: 80px;
+}
+
+/* --- 2. 기본 리셋 및 전역 스타일 --- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--colors-canvas);
+  color: var(--colors-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  width: 100%;
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* --- 3. <header> (지시사항: 푸른 계열 배경색 + Claude 에디토리얼 조화) --- */
+.main-header {
+  background: var(--header-blue-bg);
+  border-bottom: 1px solid var(--header-blue-border);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.header-container {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.brand-spike {
+  color: var(--colors-primary);
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.brand .logo {
+  font-family: var(--font-sans);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--colors-on-dark);
+  letter-spacing: -0.3px;
+}
+
+.brand .sub-logo {
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--colors-on-dark-soft);
+  margin-left: 0.25rem;
+}
+
+.badge-coral {
+  background-color: var(--colors-primary);
+  color: var(--colors-on-primary);
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.2rem 0.65rem;
+  border-radius: var(--rounded-pill);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.nav-menu a {
+  color: var(--colors-on-dark-soft);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: color 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.5rem;
+  border-radius: var(--rounded-sm);
+}
+
+.nav-menu a:hover {
+  color: var(--colors-on-dark);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.mobile-toggle {
+  display: none;
+  background: transparent;
+  border: none;
+  color: var(--colors-on-dark);
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+/* --- 4. 히어로 섹션 (Warm Canvas & Slab-Serif Display) --- */
+.hero-section {
+  background-color: var(--colors-canvas);
+  padding: 5rem 1.5rem 3.5rem;
+  border-bottom: 1px solid var(--colors-hairline);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.75rem;
+}
+
+.hero-content {
+  max-width: 820px;
+}
+
+.hero-pill-wrap {
+  margin-bottom: 1.25rem;
+}
+
+.badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--colors-surface-card);
+  color: var(--colors-ink);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  padding: 0.35rem 0.9rem;
+  border-radius: var(--rounded-pill);
+  border: 1px solid var(--colors-hairline);
+}
+
+.coral-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--colors-primary);
+}
+
+/* Claude 시그니처 세리프 헤드라인 (Copernicus / Cormorant Garamond) */
+.hero-title {
+  font-family: var(--font-display);
+  font-size: 3.25rem;
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--colors-ink);
+  letter-spacing: -1.2px;
+  margin-bottom: 1.5rem;
+}
+
+.hero-title em {
+  font-style: italic;
+  color: var(--colors-primary);
+}
+
+.hero-desc {
+  font-size: 1.125rem;
+  color: var(--colors-muted);
+  line-height: 1.7;
+  margin-bottom: 2.25rem;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 0.85rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Claude 통계 서피스 카드 */
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  width: 100%;
+  max-width: 920px;
+}
+
+.stat-card {
+  background: var(--colors-surface-card);
+  border: 1px solid var(--colors-hairline);
+  border-radius: var(--rounded-lg);
+  padding: 1.5rem;
+  text-align: left;
+}
+
+.stat-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: var(--colors-muted);
+  font-family: var(--font-mono);
+}
+
+.stat-glyph {
+  color: var(--colors-primary);
+  font-size: 0.9rem;
+}
+
+.stat-value {
+  font-family: var(--font-display);
+  font-size: 2.25rem;
+  font-weight: 400;
+  color: var(--colors-ink);
+  line-height: 1;
+  margin-bottom: 0.35rem;
+  letter-spacing: -0.5px;
+}
+
+.stat-sub {
+  font-size: 0.8125rem;
+  color: var(--colors-muted);
+}
+
+/* --- 5. 공통 컴포넌트: 버튼 & 카드 & 인풋 --- */
+.section {
+  padding: var(--spacing-section) 1.5rem;
+}
+
+.section-header {
+  margin-bottom: 2.5rem;
+}
+
+.section-tag-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.5rem;
+}
+
+.section-number {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--colors-primary);
+  font-weight: 600;
+}
+
+.section-category {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--colors-muted);
+  letter-spacing: 1.2px;
+}
+
+.section-header h2 {
+  font-family: var(--font-display);
+  font-size: 2.25rem;
+  font-weight: 400;
+  color: var(--colors-ink);
+  letter-spacing: -0.6px;
+  margin-bottom: 0.4rem;
+}
+
+.section-sub {
+  font-size: 0.95rem;
+  color: var(--colors-muted);
+}
+
+/* 버튼 시스템 (Claude Tokens) */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 10px 20px;
+  height: 42px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: var(--rounded-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+  font-family: var(--font-sans);
+}
+
+.btn-primary {
+  background-color: var(--colors-primary);
+  color: var(--colors-on-primary);
+}
+
+.btn-primary:hover {
+  background-color: var(--colors-primary-active);
+}
+
+.btn-secondary {
+  background-color: var(--colors-canvas);
+  color: var(--colors-ink);
+  border: 1px solid var(--colors-hairline);
+}
+
+.btn-secondary:hover {
+  background-color: var(--colors-surface-card);
+  border-color: var(--colors-surface-cream-strong);
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.btn-sm {
+  padding: 6px 14px;
+  height: 32px;
+  font-size: 0.8125rem;
+}
+
+.mt-2 { margin-top: 0.5rem; }
+.mt-3 { margin-top: 1rem; }
+
+/* 카드 (Color-block first, shadow rare) */
+.card {
+  background: var(--colors-surface-card);
+  border: 1px solid var(--colors-hairline);
+  border-radius: var(--rounded-lg);
+  padding: 2rem;
+}
+
+.card-title-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--colors-hairline);
+}
+
+.card-title-bar h3 {
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  font-weight: 500;
+  color: var(--colors-ink);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.marker {
+  color: var(--colors-primary);
+  font-size: 1.1rem;
+}
+
+.caption-tag {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--colors-muted);
+}
+
+/* 폼 컨트롤 */
+.form-group {
+  margin-bottom: 1.1rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.85rem;
+}
+
+label {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--colors-body-strong);
+  margin-bottom: 0.35rem;
+}
+
+input[type="text"],
+input[type="time"],
+select {
+  width: 100%;
+  height: 40px;
+  padding: 8px 12px;
+  font-size: 0.875rem;
+  font-family: var(--font-sans);
+  border: 1px solid var(--colors-hairline);
+  border-radius: var(--rounded-md);
+  background-color: var(--colors-canvas);
+  color: var(--colors-ink);
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+input:focus,
+select:focus {
+  border-color: var(--colors-primary);
+  box-shadow: 0 0 0 3px rgba(204, 120, 92, 0.15);
+}
+
+/* --- 6. Claude의 Dark Navy Product Surface (시간표 타임라인) --- */
+.timetable-grid-layout {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 1.75rem;
+  align-items: start;
+}
+
+.dark-card {
+  background-color: var(--colors-surface-dark);
+  border: 1px solid var(--colors-surface-dark-elevated);
+  border-radius: var(--rounded-lg);
+  padding: 1.75rem;
+  color: var(--colors-on-dark);
+}
+
+/* 터미널 크롬 바 */
+.terminal-chrome {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding-bottom: 1.1rem;
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid var(--colors-surface-dark-soft);
+}
+
+.terminal-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.dot.red { background: #ef4444; }
+.dot.yellow { background: #f59e0b; }
+.dot.green { background: #10b981; }
+
+.terminal-title {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--colors-on-dark-soft);
+}
+
+/* 다크 서피스 요일 탭 */
+.day-tabs-dark {
+  display: flex;
+  background-color: var(--colors-surface-dark-soft);
+  padding: 4px;
+  border-radius: var(--rounded-md);
+  margin-bottom: 1.25rem;
+  gap: 4px;
+}
+
+.day-tab-dark {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 8px 4px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--colors-on-dark-soft);
+  border-radius: var(--rounded-sm);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: var(--font-sans);
+}
+
+.day-tab-dark:hover {
+  color: var(--colors-on-dark);
+}
+
+.day-tab-dark.active {
+  background: var(--colors-surface-dark-elevated);
+  color: var(--colors-on-dark);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.daily-summary-dark {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.65rem 0.9rem;
+  background: var(--colors-surface-dark-soft);
+  border-radius: var(--rounded-sm);
+  margin-bottom: 1.25rem;
+  font-size: 0.875rem;
+}
+
+.summary-day-text {
+  font-weight: 500;
+  color: var(--colors-on-dark);
+}
+
+.gap-pill-dark {
+  background: rgba(204, 120, 92, 0.2);
+  color: #ffaa88;
+  padding: 0.2rem 0.65rem;
+  border-radius: var(--rounded-pill);
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  border: 1px solid rgba(204, 120, 92, 0.3);
+}
+
+/* 타임라인 항목 렌더링 */
+.timeline-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-height: 280px;
+}
+
+.timeline-item {
+  display: flex;
+  align-items: stretch;
+  border-radius: var(--rounded-md);
+  overflow: hidden;
+  transition: transform 0.2s ease;
+}
+
+.timeline-item:hover {
+  transform: translateX(3px);
+}
+
+.time-badge {
+  width: 90px;
+  padding: 0.75rem 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.item-content {
+  flex: 1;
+  padding: 0.85rem 1.1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* 수업 아이템 (다크 크롬 내 강의 카드) */
+.timeline-item.class-item {
+  background: var(--colors-surface-dark-elevated);
+  border: 1px solid var(--colors-surface-dark-soft);
+}
+
+.timeline-item.class-item .time-badge {
+  background: var(--colors-surface-dark-soft);
+  color: var(--colors-on-dark-soft);
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.item-content h4 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--colors-on-dark);
+  margin-bottom: 0.2rem;
+}
+
+.item-content p {
+  font-size: 0.8rem;
+  color: var(--colors-on-dark-soft);
+}
+
+.btn-delete-item {
+  background: transparent;
+  border: none;
+  color: var(--colors-on-dark-soft);
+  cursor: pointer;
+  padding: 0.4rem;
+  font-size: 0.95rem;
+}
+
+.btn-delete-item:hover {
+  color: var(--colors-error);
+}
+
+/* 공강 아이템 (Claude의 Coral/Amber 하이라이트 블록) */
+.timeline-item.gap-item {
+  background: rgba(204, 120, 92, 0.12);
+  border: 1px dashed var(--colors-primary);
+  cursor: pointer;
+}
+
+.timeline-item.gap-item:hover {
+  background: rgba(204, 120, 92, 0.2);
+}
+
+.timeline-item.gap-item .time-badge {
+  background: rgba(204, 120, 92, 0.18);
+  color: #ffb899;
+  border-right: 1px dashed var(--colors-primary);
+}
+
+.gap-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #ffaa88;
+}
+
+.gap-duration-tag {
+  background: var(--colors-primary);
+  color: var(--colors-on-primary);
+  padding: 0.15rem 0.55rem;
+  border-radius: var(--rounded-pill);
+  font-size: 0.7rem;
+  font-family: var(--font-mono);
+}
+
+.gap-action-hint {
+  font-size: 0.75rem;
+  color: var(--colors-on-dark-soft);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.empty-day-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--colors-on-dark-soft);
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+}
+
+/* --- 7. 추천 액티비티 그리드 --- */
+.recommend-control-bar {
+  margin-bottom: 2rem;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.1rem;
+}
+
+.filter-label {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--colors-muted);
+}
+
+.chip-group {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.chip {
+  background: var(--colors-canvas);
+  border: 1px solid var(--colors-hairline);
+  padding: 6px 14px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--colors-body);
+  border-radius: var(--rounded-md);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: var(--font-sans);
+}
+
+.chip:hover {
+  background: var(--colors-surface-card);
+  border-color: var(--colors-surface-cream-strong);
+}
+
+.chip.active {
+  background: var(--colors-surface-card);
+  color: var(--colors-ink);
+  font-weight: 600;
+  border-color: var(--colors-ink);
+}
+
+.active-gap-banner {
+  background: var(--colors-surface-card);
+  border: 1px solid var(--colors-hairline);
+  color: var(--colors-body-strong);
+  padding: 0.75rem 1rem;
+  border-radius: var(--rounded-md);
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.banner-icon {
+  color: var(--colors-primary);
+  font-weight: bold;
+}
+
+.activity-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.25rem;
+}
+
+.activity-card {
+  background: var(--colors-canvas);
+  border: 1px solid var(--colors-hairline);
+  border-radius: var(--rounded-lg);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.activity-card:hover {
+  border-color: var(--colors-primary);
+  transform: translateY(-2px);
+}
+
+.activity-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.activity-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--rounded-md);
+  background: var(--colors-surface-card);
+  color: var(--colors-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+
+.activity-duration {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--rounded-pill);
+  background: var(--colors-surface-card);
+  color: var(--colors-muted);
+}
+
+.activity-card h4 {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: var(--colors-ink);
+  margin-bottom: 0.35rem;
+  letter-spacing: -0.3px;
+}
+
+.activity-card p {
+  font-size: 0.85rem;
+  color: var(--colors-muted);
+  line-height: 1.55;
+  margin-bottom: 1.25rem;
+}
+
+.activity-tag {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--colors-primary);
+}
+
+/* --- 8. 친구 공강 매칭 레이아웃 --- */
+.friend-grid-layout {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 1.75rem;
+  align-items: start;
+}
+
+.friends-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.friend-tag {
+  background: var(--colors-canvas);
+  border: 1px solid var(--colors-hairline);
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--rounded-pill);
+  font-size: 0.8125rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--colors-body-strong);
+}
+
+.friend-tag .remove-friend-btn {
+  background: transparent;
+  border: none;
+  color: var(--colors-muted-soft);
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.friend-tag .remove-friend-btn:hover {
+  color: var(--colors-error);
+}
+
+.match-results {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.match-item {
+  background: var(--colors-canvas);
+  border: 1px solid var(--colors-accent-teal);
+  border-left: 4px solid var(--colors-accent-teal);
+  border-radius: var(--rounded-md);
+  padding: 1.15rem 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.match-item-left h4 {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: var(--colors-ink);
+  margin-bottom: 0.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.match-item-left p {
+  font-size: 0.8125rem;
+  color: var(--colors-muted);
+}
+
+.match-time-tag {
+  background: var(--colors-accent-teal);
+  color: #ffffff;
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--rounded-pill);
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+}
+
+.match-action-btn {
+  margin-top: 0.35rem;
+  display: inline-block;
+  font-size: 0.75rem;
+  color: var(--colors-primary);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* --- 9. 개발자 포트폴리오 (Claude Dark Showcase Card) --- */
+.architecture-card {
+  border-radius: var(--rounded-lg);
+}
+
+.developer-profile {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.avatar-wrap {
+  width: 72px;
+  height: 72px;
+  border-radius: var(--rounded-md);
+  background: var(--colors-surface-dark-elevated);
+  border: 1px solid var(--colors-surface-dark-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--colors-primary);
+  font-size: 1.75rem;
+  flex-shrink: 0;
+}
+
+.profile-name {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 400;
+  color: var(--colors-on-dark);
+  margin-top: 0.25rem;
+  letter-spacing: -0.5px;
+}
+
+.profile-role {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--colors-on-dark-soft);
+  margin-bottom: 0.6rem;
+}
+
+.profile-bio {
+  font-size: 0.9rem;
+  color: var(--colors-on-dark-soft);
+  line-height: 1.6;
+}
+
+/* 코드 에디터 모크업 */
+.terminal-code-block {
+  background: var(--colors-surface-dark-soft);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--rounded-md);
+  padding: 1.25rem;
+  overflow-x: auto;
+}
+
+.code-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 0.75rem;
+}
+
+.code-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.code-dot.red { background: #ef4444; }
+.code-dot.yellow { background: #f59e0b; }
+.code-dot.green { background: #10b981; }
+
+.code-filename {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--colors-on-dark-soft);
+  margin-left: 0.5rem;
+}
+
+pre code {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: #ffb899;
+  line-height: 1.6;
+}
+
+.tech-spec-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.spec-col {
+  background: var(--colors-surface-dark-elevated);
+  padding: 1.15rem;
+  border-radius: var(--rounded-sm);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.spec-col h5 {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--colors-primary);
+  margin-bottom: 0.4rem;
+}
+
+.spec-col p {
+  font-size: 0.8125rem;
+  color: var(--colors-on-dark-soft);
+  line-height: 1.5;
+}
+
+/* --- 10. 푸터 (Dark Surface Footer) --- */
+.main-footer {
+  background: var(--colors-surface-dark);
+  color: var(--colors-on-dark-soft);
+  border-top: 1px solid var(--colors-surface-dark-soft);
+  padding: 3.5rem 0;
+  font-size: 0.85rem;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.footer-left {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.footer-spike {
+  color: var(--colors-primary);
+  font-weight: bold;
+}
+
+.footer-brand {
+  font-weight: 600;
+  color: var(--colors-on-dark);
+}
+
+.footer-sub {
+  font-size: 0.8rem;
+  color: var(--colors-on-dark-soft);
+  margin-left: 0.5rem;
+}
+
+.footer-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.footer-links a {
+  color: var(--colors-on-dark-soft);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+  color: var(--colors-on-dark);
+}
+
+.footer-copy {
+  width: 100%;
+  font-size: 0.75rem;
+  color: #55534e;
+  margin-top: 1rem;
+}
+
+/* --- 11. 반응형 미디어 쿼리 --- */
+@media (max-width: 1024px) {
+  .timetable-grid-layout,
+  .friend-grid-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-title {
+    font-size: 2.75rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .mobile-toggle {
+    display: block;
+  }
+
+  .nav-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--header-blue-bg);
+    flex-direction: column;
+    padding: 1.25rem;
+    gap: 0.85rem;
+    border-top: 1px solid var(--header-blue-border);
+  }
+
+  .nav-menu.show {
+    display: flex;
+  }
+
+  .hero-section {
+    padding: 3.5rem 1.25rem 2.5rem;
+  }
+
+  .hero-title {
+    font-size: 2.15rem;
+  }
+
+  .hero-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .form-row,
+  .tech-spec-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .developer-profile {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .footer-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>공강요정 (GongGang Mate) | Claude 에디토리얼 스타일 포트폴리오</title>
+  
+  <!-- Google Fonts: Cormorant Garamond (Serif Display) + Inter (Humanist Sans) + JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Pretendard:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Claude Design System 기반 CSS 연결 -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- 푸른 계열 배경색이 적용된 헤더 (Claude 다크 인디고/네이비 톤 조화) -->
+  <header class="main-header">
+    <div class="header-container">
+      <div class="brand">
+        <span class="brand-spike">✳</span>
+        <h1 class="logo">
+          공강요정 <span class="sub-logo">GongGang Mate</span>
+        </h1>
+        <span class="badge badge-coral">Portfolio v1.0</span>
+      </div>
+      <nav class="nav-menu">
+        <a href="#about-service"><i class="fa-regular fa-compass"></i> 철학 & 소개</a>
+        <a href="#timetable-section"><i class="fa-regular fa-calendar"></i> 내 시간표 / 공강</a>
+        <a href="#recommend-section"><i class="fa-regular fa-lightbulb"></i> 맞춤 큐레이션</a>
+        <a href="#friend-section"><i class="fa-regular fa-handshake"></i> 친구 공강 매칭</a>
+        <a href="#developer-section"><i class="fa-solid fa-code"></i> 아키텍처 & 회고</a>
+      </nav>
+      <button class="mobile-toggle" id="mobile-toggle" aria-label="메뉴 열기">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- 히어로 & 인트로 섹션 (Claude의 웜 크림 캔버스 & 세리프 헤드라인) -->
+    <section class="hero-section" id="about-service">
+      <div class="hero-content">
+        <div class="hero-pill-wrap">
+          <span class="badge-pill"><span class="coral-dot"></span> 24학번 새내기 개발자의 첫 웹 시스템</span>
+        </div>
+        <h2 class="hero-title">
+          수업 사이 애매하게 비는 시간,<br>
+          <em>스마트한 공강 큐레이션과 친구 밥약</em>
+        </h2>
+        <p class="hero-desc">
+          "30분 비면 어디 가야 하지? 2시간 동안 무얼 할 수 있을까? 친구는 언제 공강일까?"<br>
+          스마트폰 화면만 멍하니 보며 버리던 자투리 시간을 알차고 따뜻한 일상으로 전환하는 지능형 시간표 도우미입니다.
+        </p>
+        <div class="hero-actions">
+          <button class="btn btn-primary" id="btn-load-sample">
+            <i class="fa-solid fa-sparkles"></i> 1초 만에 샘플 시간표 로드
+          </button>
+          <a href="#timetable-section" class="btn btn-secondary">
+            직접 시간표 입력하기
+          </a>
+        </div>
+      </div>
+
+      <!-- Claude 스타일 통계 서피스 카드 -->
+      <div class="hero-stats">
+        <div class="stat-card">
+          <div class="stat-top">
+            <span class="stat-label">TODAY'S GAPS</span>
+            <span class="stat-glyph">✦</span>
+          </div>
+          <h4 id="stat-gap-count" class="stat-value">0개</h4>
+          <p class="stat-sub">오늘의 공강 횟수</p>
+        </div>
+        <div class="stat-card">
+          <div class="stat-top">
+            <span class="stat-label">TOTAL TIME</span>
+            <span class="stat-glyph">⏱</span>
+          </div>
+          <h4 id="stat-gap-total" class="stat-value">0분</h4>
+          <p class="stat-sub">오늘의 총 공강 분량</p>
+        </div>
+        <div class="stat-card">
+          <div class="stat-top">
+            <span class="stat-label">FRIEND MATCH</span>
+            <span class="stat-glyph">👥</span>
+          </div>
+          <h4 id="stat-friend-overlap" class="stat-value">매칭 전</h4>
+          <p class="stat-sub">친구 밥약 가능 여부</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 1. 시간표 입력 & 공강 자동 계산 섹션 -->
+    <section class="section container" id="timetable-section">
+      <div class="section-header">
+        <div class="section-tag-row">
+          <span class="section-number">01</span>
+          <span class="section-category">TIMETABLE & GAP ENGINE</span>
+        </div>
+        <h2>내 시간표 & 공강 자동 분석</h2>
+        <p class="section-sub">강의 일정을 등록하면 수업과 수업 사이의 <strong>빈 공강 시간(Gap Block)</strong>을 밀리초 단위 오차 없이 자동 계산합니다.</p>
+      </div>
+
+      <div class="timetable-grid-layout">
+        <!-- 수업 등록 폼 (Light Cream Card) -->
+        <div class="card form-card">
+          <div class="card-title-bar">
+            <h3><span class="marker">✢</span> 새 강의 추가</h3>
+            <span class="caption-tag">수동 입력</span>
+          </div>
+          <form id="class-form">
+            <div class="form-group">
+              <label for="course-name">강의명 (Course Title)</label>
+              <input type="text" id="course-name" placeholder="예: 객체지향프로그래밍, 경제학개론" required>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="course-day">요일 (Day)</label>
+                <select id="course-day" required>
+                  <option value="월">월요일</option>
+                  <option value="화">화요일</option>
+                  <option value="수">수요일</option>
+                  <option value="목">목요일</option>
+                  <option value="금">금요일</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="course-room">강의실 (Location)</label>
+                <input type="text" id="course-room" placeholder="예: 공학관 302호">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="start-time">시작 시간 (Start)</label>
+                <input type="time" id="start-time" value="09:00" required>
+              </div>
+              <div class="form-group">
+                <label for="end-time">종료 시간 (End)</label>
+                <input type="time" id="end-time" value="10:15" required>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-block btn-primary">
+              시간표에 추가하기
+            </button>
+            <button type="button" class="btn btn-block btn-secondary mt-2" id="btn-reset-timetable">
+              시간표 초기화
+            </button>
+          </form>
+        </div>
+
+        <!-- 시간표 & 공강 타임라인 뷰어 (Claude의 Dark Navy Product Surface) -->
+        <div class="card dark-card timetable-card">
+          <div class="terminal-chrome">
+            <div class="terminal-dots">
+              <span class="dot red"></span>
+              <span class="dot yellow"></span>
+              <span class="dot green"></span>
+            </div>
+            <span class="terminal-title">gonggang-timeline-engine.sh — Active Schedule</span>
+          </div>
+
+          <div class="day-tabs-dark" id="day-tabs">
+            <button class="day-tab-dark active" data-day="월">월요일</button>
+            <button class="day-tab-dark" data-day="화">화요일</button>
+            <button class="day-tab-dark" data-day="수">수요일</button>
+            <button class="day-tab-dark" data-day="목">목요일</button>
+            <button class="day-tab-dark" data-day="금">금요일</button>
+          </div>
+
+          <div class="daily-summary-dark">
+            <span id="selected-day-label" class="summary-day-text">월요일 타임라인</span>
+            <span class="gap-pill-dark" id="selected-day-gap-summary">분석 준비 중</span>
+          </div>
+
+          <!-- 타임라인 렌더링 영역 (수업 & 공강) -->
+          <div class="timeline-wrapper" id="timeline-container">
+            <!-- 자바스크립트가 동적으로 렌더링 -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. 공강 길이별 맞춤 할 일 제안 섹션 -->
+    <section class="section container" id="recommend-section">
+      <div class="section-header">
+        <div class="section-tag-row">
+          <span class="section-number">02</span>
+          <span class="section-category">CURATED RECOMMENDATIONS</span>
+        </div>
+        <h2>시간 규모별 맞춤 큐레이션</h2>
+        <p class="section-sub">공강 길이에 따라 '30분 마이크로 공강'부터 '2시간 이상 우주공강'까지 가장 밀도 높은 활동을 제안합니다.</p>
+      </div>
+
+      <div class="recommend-control-bar">
+        <div class="filter-group">
+          <span class="filter-label">길이 분류:</span>
+          <div class="chip-group" id="duration-chips">
+            <button class="chip active" data-filter="all">전체 아카이브</button>
+            <button class="chip" data-filter="short">⚡ 30분 미만 (마이크로)</button>
+            <button class="chip" data-filter="medium">☕ 30분 ~ 1시간 (숏)</button>
+            <button class="chip" data-filter="long">📚 1시간 ~ 2시간 (미들)</button>
+            <button class="chip" data-filter="extra">🎬 2시간 이상 (우주공강)</button>
+          </div>
+        </div>
+        <div class="active-gap-banner" id="active-gap-banner">
+          <span class="banner-icon">✳</span>
+          <span id="banner-text">타임라인의 공강 블록을 클릭하면 해당 시간에 최적화된 활동들로 자동 필터링됩니다.</span>
+        </div>
+      </div>
+
+      <!-- 추천 활동 카드 그리드 -->
+      <div class="activity-grid" id="activity-card-container">
+        <!-- JS로 동적 생성 -->
+      </div>
+    </section>
+
+    <!-- 3. 친구 시간표 & 겹치는 공강 매칭 섹션 -->
+    <section class="section container" id="friend-section">
+      <div class="section-header">
+        <div class="section-tag-row">
+          <span class="section-number">03</span>
+          <span class="section-category">SOCIAL OVERLAP ENGINE</span>
+        </div>
+        <h2>친구와 함께하는 겹치는 공강 찾기</h2>
+        <p class="section-sub">친구의 시간표를 등록하면 두 사람의 공강 구간에서 <strong>교집합(Intersection)</strong>을 찾아내어 밥약과 카공을 성사시킵니다.</p>
+      </div>
+
+      <div class="friend-grid-layout">
+        <!-- 친구 시간표 등록 -->
+        <div class="card form-card">
+          <div class="card-title-bar">
+            <h3><span class="marker">✢</span> 친구 시간표 등록</h3>
+            <button class="btn btn-sm btn-secondary" id="btn-load-friend-sample">
+              샘플 친구 로드
+            </button>
+          </div>
+          <form id="friend-form">
+            <div class="form-group">
+              <label for="friend-name">친구 닉네임</label>
+              <input type="text" id="friend-name" placeholder="예: 민수, 지은" required>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="friend-day">요일</label>
+                <select id="friend-day" required>
+                  <option value="월">월요일</option>
+                  <option value="화">화요일</option>
+                  <option value="수">수요일</option>
+                  <option value="목">목요일</option>
+                  <option value="금">금요일</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="friend-course">강의명</label>
+                <input type="text" id="friend-course" placeholder="예: 기초통계학" required>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="friend-start">시작 시간</label>
+                <input type="time" id="friend-start" value="10:00" required>
+              </div>
+              <div class="form-group">
+                <label for="friend-end">종료 시간</label>
+                <input type="time" id="friend-end" value="11:15" required>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-block btn-secondary">
+              친구 강의 추가하기
+            </button>
+          </form>
+
+          <div class="registered-friends-wrap mt-3">
+            <span class="caption-tag">등록된 친구 네트워크</span>
+            <div id="friends-list-container" class="friends-tags">
+              <!-- 친구 목록 뱃지 -->
+            </div>
+          </div>
+        </div>
+
+        <!-- 겹치는 공강 결과 카드 (Claude Featured Match Box) -->
+        <div class="card match-result-card">
+          <div class="card-title-bar">
+            <h3><span class="marker">✦</span> 실시간 공강 매칭 결과</h3>
+            <button class="btn btn-sm btn-primary" id="btn-calculate-match">
+              매칭 갱신
+            </button>
+          </div>
+          
+          <div id="match-results-container" class="match-results">
+            <!-- 겹치는 공강 결과 리스트 -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. 포트폴리오 개발자 소개 및 아키텍처 섹션 -->
+    <section class="section container" id="developer-section">
+      <div class="card dark-card architecture-card">
+        <div class="developer-profile">
+          <div class="avatar-wrap">
+            <span class="avatar-spike">✳</span>
+          </div>
+          <div class="profile-info">
+            <span class="badge badge-coral">STUDENT DEVELOPER ARCHITECTURE</span>
+            <h3 class="profile-name">김코딩 (Kim Coding)</h3>
+            <p class="profile-role">컴퓨터공학전공 24학번 | Web System Craftsman</p>
+            <p class="profile-bio">
+              "실제 대학 캠퍼스 일상에서 마주친 '공강 시간의 파편화'와 '친구 약속 조율의 번거로움'을 
+              직관적인 인터벌 알고리즘과 Claude 감성의 단단한 에디토리얼 UI로 풀어낸 첫 웹 솔루션입니다."
+            </p>
+          </div>
+        </div>
+
+        <div class="terminal-code-block mt-3">
+          <div class="code-header">
+            <span class="code-dot red"></span>
+            <span class="code-dot yellow"></span>
+            <span class="code-dot green"></span>
+            <span class="code-filename">algorithms/interval_matcher.js (Core Logic)</span>
+          </div>
+          <pre><code>// 1. 공강 시간 추출: i번째 수업의 종료와 i+1번째 수업 시작 사이의 갭 탐색
+gapInterval = (nextClass.startMin > currentClass.endMin) 
+  ? { start: currentClass.endMin, end: nextClass.startMin } : null;
+
+// 2. 친구 공강 교집합(Overlap): 두 인터벌의 [max(start), min(end)] 산출
+overlapStart = Math.max(myGap.start, friendGap.start);
+overlapEnd = Math.min(myGap.end, friendGap.end);
+if (overlapEnd - overlapStart >= 20) { /* 밥약 및 카공 성사! */ }</code></pre>
+        </div>
+
+        <div class="tech-spec-grid mt-3">
+          <div class="spec-col">
+            <h5>Design Architecture</h5>
+            <p>Anthropic Claude의 웜 크림(#faf9f5) 캔버스와 세리프 헤드라인, 다크 프로덕트 서피스(#181715)의 대비를 살린 에디토리얼 시스템</p>
+          </div>
+          <div class="spec-col">
+            <h5>Data Persistence</h5>
+            <p>서버 부하 없는 클라이언트 로컬 스토리지(LocalStorage) 기반 완결형 영구 저장 아키텍처</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Claude 감성의 다크 서피스 푸터 -->
+  <footer class="main-footer">
+    <div class="container footer-content">
+      <div class="footer-left">
+        <span class="footer-spike">✳</span>
+        <span class="footer-brand">공강요정 (GongGang Mate)</span>
+        <span class="footer-sub">A Warm Editorial Assistant for Campus Life.</span>
+      </div>
+      <div class="footer-links">
+        <a href="#about-service">철학</a>
+        <a href="#timetable-section">시간표</a>
+        <a href="#recommend-section">할 일 추천</a>
+        <a href="#friend-section">친구 매칭</a>
+      </div>
+      <p class="footer-copy">© 2024-2026 Kim Coding. Designed with Claude's Warm Aesthetic.</p>
+    </div>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
